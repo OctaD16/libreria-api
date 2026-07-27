@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +37,13 @@ public class CustomerOrder {
     private Integer deliveryType;
 
     private LocalDateTime deliveryDate;
+
+@OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<OrdersDetail> ordersDetails;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_config_id")
+    private StoreConfig storeConfig;
 
 
 

@@ -17,4 +17,12 @@ public class OrdersDetail {
     private double price;
 
     private double subtotal;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_order_id")
+    private CustomerOrder customerOrder;
 }
