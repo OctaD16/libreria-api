@@ -1,35 +1,39 @@
 package com.libreria_pedidos.libreria_api.service;
 
+import com.libreria_pedidos.libreria_api.model.Product;
 import com.libreria_pedidos.libreria_api.repository.IProductRepository;
-import com.libreria_pedidos.libreria_api.service.serviceJPA.IProductService;
+import com.libreria_pedidos.libreria_api.serviceJPA.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductService implements IProductService {
     @Autowired
     private IProductRepository pRepo;
     @Override
-    public com.libreria_pedidos.libreria_api.model.Product save(com.libreria_pedidos.libreria_api.model.Product product) {
-        return null;
+    public Product guardar(Product product){
+        return pRepo.save(product);
     }
 
     @Override
-    public java.util.Optional<com.libreria_pedidos.libreria_api.model.Product> findById(Long id) {
-        return java.util.Optional.empty();
+    public Product buscarPorId (Long id)  {
+        return pRepo.findById(id).orElse(null);
     }
 
     @Override
-    public java.util.List<com.libreria_pedidos.libreria_api.model.Product> findAll() {
-        return java.util.Collections.emptyList();
+    public List<Product> buscarTodos() {
+        return pRepo.findAll();
     }
 
     @Override
-    public void delete(Long id) {
+    public void eliminar(Long id) {
+        pRepo.deleteById(id);
     }
 
     @Override
-    public com.libreria_pedidos.libreria_api.model.Product update(Long id, com.libreria_pedidos.libreria_api.model.Product product) {
-        return null;
+    public Product actualizar(Long id, Product product) {
+        return pRepo.save(product);
     }
 }

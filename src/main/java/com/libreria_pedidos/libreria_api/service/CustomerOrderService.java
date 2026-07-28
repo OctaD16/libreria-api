@@ -1,35 +1,40 @@
 package com.libreria_pedidos.libreria_api.service;
 
+import com.libreria_pedidos.libreria_api.model.CustomerOrder;
 import com.libreria_pedidos.libreria_api.repository.ICustomerOrderRepository;
-import com.libreria_pedidos.libreria_api.service.serviceJPA.ICustomerOrderService;
+import com.libreria_pedidos.libreria_api.serviceJPA.ICustomerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CustomerOrderService implements ICustomerOrderService {
     @Autowired
     private ICustomerOrderRepository coRepo;
+
     @Override
-    public com.libreria_pedidos.libreria_api.model.CustomerOrder save(com.libreria_pedidos.libreria_api.model.CustomerOrder customerOrder) {
-        return null;
+    public CustomerOrder guardar(CustomerOrder customerOrder) {
+        return coRepo.save(customerOrder);
     }
 
     @Override
-    public java.util.Optional<com.libreria_pedidos.libreria_api.model.CustomerOrder> findById(Long id) {
-        return java.util.Optional.empty();
+    public CustomerOrder buscarPorId(Long id) {
+        return coRepo.findById(id).orElse(null);
     }
 
     @Override
-    public java.util.List<com.libreria_pedidos.libreria_api.model.CustomerOrder> findAll() {
-        return java.util.Collections.emptyList();
+    public List<CustomerOrder> buscarTodos() {
+        return coRepo.findAll();
     }
 
     @Override
-    public void delete(Long id) {
+    public void eliminar(Long id) {
+        coRepo.deleteById(id);
     }
 
     @Override
-    public com.libreria_pedidos.libreria_api.model.CustomerOrder update(Long id, com.libreria_pedidos.libreria_api.model.CustomerOrder customerOrder) {
-        return null;
+    public CustomerOrder actualizar(Long id, CustomerOrder customerOrder) {
+        return coRepo.save(customerOrder);
     }
 }

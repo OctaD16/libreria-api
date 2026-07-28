@@ -1,13 +1,12 @@
-package com.libreria_pedidos.libreria_api.service.serviceJPA;
+package com.libreria_pedidos.libreria_api.serviceJPA;
 
 import com.libreria_pedidos.libreria_api.model.StoreConfig;
 import java.util.List;
-import java.util.Optional;
 
 public interface IStoreConfigService {
-    StoreConfig save(StoreConfig storeConfig);
-    Optional<StoreConfig> findById(Long id);
-    List<StoreConfig> findAll();
-    void delete(Long id);
-    StoreConfig update(Long id, StoreConfig storeConfig);
+    StoreConfig guardar(StoreConfig storeConfig);
+    StoreConfig buscarPorId(Long id);
+    List<StoreConfig> buscarTodos();
+    void eliminar(Long id);
+    StoreConfig actualizar(Long id, StoreConfig storeConfig);
 }

@@ -1,13 +1,12 @@
-package com.libreria_pedidos.libreria_api.service.serviceJPA;
+package com.libreria_pedidos.libreria_api.serviceJPA;
 
 import com.libreria_pedidos.libreria_api.model.Product;
 import java.util.List;
-import java.util.Optional;
 
 public interface IProductService {
-    Product save(Product product);
-    Optional<Product> findById(Long id);
-    List<Product> findAll();
-    void delete(Long id);
-    Product update(Long id, Product product);
+    Product guardar(Product product);
+    Product buscarPorId(Long id);
+    List<Product> buscarTodos();
+    void eliminar(Long id);
+    Product actualizar(Long id, Product product);
 }

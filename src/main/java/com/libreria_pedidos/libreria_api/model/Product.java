@@ -3,11 +3,7 @@ package com.libreria_pedidos.libreria_api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.apache.bcel.generic.Tag;
-
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -40,9 +36,4 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrdersDetail> ordersDetails;
-
-    @ManyToMany
-    private List<Product> products;
-
-
 }

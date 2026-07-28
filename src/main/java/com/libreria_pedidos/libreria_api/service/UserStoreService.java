@@ -1,35 +1,40 @@
 package com.libreria_pedidos.libreria_api.service;
 
+import com.libreria_pedidos.libreria_api.model.UserStore;
 import com.libreria_pedidos.libreria_api.repository.IUserStoreRepository;
-import com.libreria_pedidos.libreria_api.service.serviceJPA.IUserStoreService;
+import com.libreria_pedidos.libreria_api.serviceJPA.IUserStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserStoreService implements IUserStoreService {
     @Autowired
     private IUserStoreRepository usRepo;
+
     @Override
-    public com.libreria_pedidos.libreria_api.model.UserStore save(com.libreria_pedidos.libreria_api.model.UserStore userStore) {
-        return null;
+    public UserStore guardar(UserStore userStore) {
+        return usRepo.save(userStore);
     }
 
     @Override
-    public java.util.Optional<com.libreria_pedidos.libreria_api.model.UserStore> findById(Long id) {
-        return java.util.Optional.empty();
+    public UserStore buscarPorId(Long id) {
+        return usRepo.findById(id).orElse(null);
     }
 
     @Override
-    public java.util.List<com.libreria_pedidos.libreria_api.model.UserStore> findAll() {
-        return java.util.Collections.emptyList();
+    public List<UserStore> buscarTodos() {
+        return usRepo.findAll();
     }
 
     @Override
-    public void delete(Long id) {
+    public void eliminar(Long id) {
+        usRepo.deleteById(id);
     }
 
     @Override
-    public com.libreria_pedidos.libreria_api.model.UserStore update(Long id, com.libreria_pedidos.libreria_api.model.UserStore userStore) {
-        return null;
+    public UserStore actualizar(Long id, UserStore userStore) {
+        return usRepo.save(userStore);
     }
 }

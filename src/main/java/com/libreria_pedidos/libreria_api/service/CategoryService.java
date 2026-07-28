@@ -1,35 +1,40 @@
 package com.libreria_pedidos.libreria_api.service;
 
+import com.libreria_pedidos.libreria_api.model.Category;
 import com.libreria_pedidos.libreria_api.repository.ICategoryRepository;
 import com.libreria_pedidos.libreria_api.serviceJPA.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository cRepo;
+    //vamos a hacer lo mismo para las demas clases service, respetando el patron de diseño
     @Override
-    public com.libreria_pedidos.libreria_api.model.Category save(com.libreria_pedidos.libreria_api.model.Category category) {
-        return null;
+    public Category guardar(Category category) {
+        return cRepo.save(category);
     }
 
     @Override
-    public java.util.Optional<com.libreria_pedidos.libreria_api.model.Category> findById(Long id) {
-        return java.util.Optional.empty();
+    public Category buscarPorId(Long id) {
+        return cRepo.findById(id).orElse(null);
     }
 
     @Override
-    public java.util.List<com.libreria_pedidos.libreria_api.model.Category> findAll() {
-        return java.util.Collections.emptyList();
+    public List<Category> buscarTodos() {
+        return cRepo.findAll();
     }
 
     @Override
-    public void delete(Long id) {
+    public void eliminar(Long id) {
+        cRepo.deleteById(id);
     }
 
     @Override
-    public com.libreria_pedidos.libreria_api.model.Category update(Long id, com.libreria_pedidos.libreria_api.model.Category category) {
-        return null;
+    public Category actualizar(Long id, Category category) {
+        return cRepo.save(category);
     }
 }

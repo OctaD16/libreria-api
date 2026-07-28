@@ -1,35 +1,40 @@
 package com.libreria_pedidos.libreria_api.service;
 
+import com.libreria_pedidos.libreria_api.model.StoreConfig;
 import com.libreria_pedidos.libreria_api.repository.IStoreConfigRepository;
-import com.libreria_pedidos.libreria_api.service.serviceJPA.IStoreConfigService;
+import com.libreria_pedidos.libreria_api.serviceJPA.IStoreConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StoreConfigService implements IStoreConfigService {
     @Autowired
     private IStoreConfigRepository scRepo;
+
     @Override
-    public com.libreria_pedidos.libreria_api.model.StoreConfig save(com.libreria_pedidos.libreria_api.model.StoreConfig storeConfig) {
-        return null;
+    public StoreConfig guardar(StoreConfig storeConfig) {
+        return scRepo.save(storeConfig);
     }
 
     @Override
-    public java.util.Optional<com.libreria_pedidos.libreria_api.model.StoreConfig> findById(Long id) {
-        return java.util.Optional.empty();
+    public StoreConfig buscarPorId(Long id) {
+        return scRepo.findById(id).orElse(null);
     }
 
     @Override
-    public java.util.List<com.libreria_pedidos.libreria_api.model.StoreConfig> findAll() {
-        return java.util.Collections.emptyList();
+    public List<StoreConfig> buscarTodos() {
+        return scRepo.findAll();
     }
 
     @Override
-    public void delete(Long id) {
+    public void eliminar(Long id) {
+        scRepo.deleteById(id);
     }
 
     @Override
-    public com.libreria_pedidos.libreria_api.model.StoreConfig update(Long id, com.libreria_pedidos.libreria_api.model.StoreConfig storeConfig) {
-        return null;
+    public StoreConfig actualizar(Long id, StoreConfig storeConfig) {
+        return scRepo.save(storeConfig);
     }
 }

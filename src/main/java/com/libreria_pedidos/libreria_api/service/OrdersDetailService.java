@@ -1,35 +1,40 @@
 package com.libreria_pedidos.libreria_api.service;
 
+import com.libreria_pedidos.libreria_api.model.OrdersDetail;
 import com.libreria_pedidos.libreria_api.repository.IOrdersDetailRepository;
-import com.libreria_pedidos.libreria_api.service.serviceJPA.IOrdersDetailService;
+import com.libreria_pedidos.libreria_api.serviceJPA.IOrdersDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OrdersDetailService implements IOrdersDetailService {
     @Autowired
     private IOrdersDetailRepository odRepo;
+
     @Override
-    public com.libreria_pedidos.libreria_api.model.OrdersDetail save(com.libreria_pedidos.libreria_api.model.OrdersDetail ordersDetail) {
-        return null;
+    public OrdersDetail guardar(OrdersDetail ordersDetail) {
+        return odRepo.save(ordersDetail);
     }
 
     @Override
-    public java.util.Optional<com.libreria_pedidos.libreria_api.model.OrdersDetail> findById(Long id) {
-        return java.util.Optional.empty();
+    public OrdersDetail buscarPorId(Long id) {
+        return odRepo.findById(id).orElse(null);
     }
 
     @Override
-    public java.util.List<com.libreria_pedidos.libreria_api.model.OrdersDetail> findAll() {
-        return java.util.Collections.emptyList();
+    public List<OrdersDetail> buscarTodos() {
+        return odRepo.findAll();
     }
 
     @Override
-    public void delete(Long id) {
+    public void eliminar(Long id) {
+        odRepo.deleteById(id);
     }
 
     @Override
-    public com.libreria_pedidos.libreria_api.model.OrdersDetail update(Long id, com.libreria_pedidos.libreria_api.model.OrdersDetail ordersDetail) {
-        return null;
+    public OrdersDetail actualizar(Long id, OrdersDetail ordersDetail) {
+        return odRepo.save(ordersDetail);
     }
 }

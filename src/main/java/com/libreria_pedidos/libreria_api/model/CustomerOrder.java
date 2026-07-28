@@ -44,11 +44,4 @@ public class CustomerOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_config_id")
     private StoreConfig storeConfig;
-
-
-
-
-
-
-
 }

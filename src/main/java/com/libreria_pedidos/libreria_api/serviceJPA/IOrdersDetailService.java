@@ -1,13 +1,12 @@
-package com.libreria_pedidos.libreria_api.service.serviceJPA;
+package com.libreria_pedidos.libreria_api.serviceJPA;
 
 import com.libreria_pedidos.libreria_api.model.OrdersDetail;
 import java.util.List;
-import java.util.Optional;
 
 public interface IOrdersDetailService {
-    OrdersDetail save(OrdersDetail ordersDetail);
-    Optional<OrdersDetail> findById(Long id);
-    List<OrdersDetail> findAll();
-    void delete(Long id);
-    OrdersDetail update(Long id, OrdersDetail ordersDetail);
+    OrdersDetail guardar(OrdersDetail ordersDetail);
+    OrdersDetail buscarPorId(Long id);
+    List<OrdersDetail> buscarTodos();
+    void eliminar(Long id);
+    OrdersDetail actualizar(Long id, OrdersDetail ordersDetail);
 }
