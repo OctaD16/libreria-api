@@ -20,10 +20,10 @@ public class Category {
     private String description;
 
     private String status;
-
+/*
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Product> products;
-
+*/
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_config_id")
     private StoreConfig storeConfig;

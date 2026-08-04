@@ -27,15 +27,4 @@ public class StoreConfig {
     private String deliveryHours;
     private String aliasStore;
 
-    @OneToMany(mappedBy = "storeConfig", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Product> products;
-
-    @OneToMany(mappedBy = "storeConfig", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Category> categories;
-
-    @OneToMany(mappedBy = "storeConfig", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<UserStore> users;
-
-    @OneToMany(mappedBy = "storeConfig", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<CustomerOrder> orders;
 }
