@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-store")
+@RequestMapping("/api/user-store")
 public class UserStoreController {
     @Autowired
     private UserStoreService userStoreService;

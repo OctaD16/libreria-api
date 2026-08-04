@@ -8,16 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/store-config")
+@RequestMapping("/api/store-config")
 public class StoreConfigController {
     @Autowired
     private StoreConfigService storeConfigService;
-
-    //METODO GET
-    @GetMapping
-    public List<StoreConfig> buscarTodos() {
-        return storeConfigService.buscarTodos();
-    }
 
     //METODO GET BY ID
     @GetMapping("/{id}")
@@ -25,21 +19,9 @@ public class StoreConfigController {
         return storeConfigService.buscarPorId(id);
     }
 
-    //METODO POST
-    @PostMapping
-    public StoreConfig guardar(@RequestBody StoreConfig storeConfig) {
-        return storeConfigService.guardar(storeConfig);
-    }
-
     //METODO PUT
     @PutMapping
     public StoreConfig actualizar(@PathVariable Long id, @RequestBody StoreConfig storeConfig) {
         return storeConfigService.actualizar(id, storeConfig);
-    }
-
-    //METODO DELETE
-    @DeleteMapping
-    public void eliminar(@PathVariable Long id) {
-        storeConfigService.eliminar(id);
     }
 }

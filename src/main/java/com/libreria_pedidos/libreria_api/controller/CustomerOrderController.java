@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api/ordenes")
 public class CustomerOrderController {
 
     @Autowired
@@ -37,13 +37,4 @@ public class CustomerOrderController {
     public CustomerOrder actualizar(@PathVariable Long id, @RequestBody CustomerOrder customerOrder) {
         return customerOrderService.actualizar(id, customerOrder);
     }
-
-    //METODO DELETE
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        customerOrderService.eliminar(id);
-    }
-
-
-
 }
