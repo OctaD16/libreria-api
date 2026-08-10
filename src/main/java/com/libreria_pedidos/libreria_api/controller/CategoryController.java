@@ -42,8 +42,4 @@ public class CategoryController {
     public void eliminar(@PathVariable Long id) {
         categoryService.eliminar(id);
     }
-
-
-
-
 }
