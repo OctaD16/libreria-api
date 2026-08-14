@@ -2,7 +2,10 @@ package com.libreria_pedidos.libreria_api.controller;
 
 import com.libreria_pedidos.libreria_api.model.Product;
 import com.libreria_pedidos.libreria_api.serviceJPA.IProductService;
+import com.libreria_pedidos.libreria_api.util.DtoApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,14 +18,30 @@ public class ProductController {
 
     //METODO GET
     @GetMapping
-    public List<Product> buscarTodos() {
-        return productService.buscarTodos();
+    public ResponseEntity<DtoApiResponse <List<Product>>>  buscarTodosLosProductos() {
+        List<Product> listaDeProductos = productService.buscarTodos();
+        if (listaDeProductos == null || listaDeProductos.isEmpty()){
+            DtoApiResponse dto = new DtoApiResponse(404, "No hay productos", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }else {
+            DtoApiResponse dto = new DtoApiResponse(200, "Productos encontrados", listaDeProductos);
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+        }
+
     }
 
     @GetMapping("/{id}")
-    public Product buscarPorId(@PathVariable Long id) {
-        return productService.buscarPorId(id);
+    public ResponseEntity<DtoApiResponse<Product>> buscarProductosPorId(@PathVariable Long id) {
+        if(productService.existe(id)){
+            DtoApiResponse<Product> dto = new DtoApiResponse<>(200, "Producto encontrado", productService.buscarPorId(id));
+            return ResponseEntity.ok().body(dto);
+        }else{
+            DtoApiResponse dto = new DtoApiResponse(404, "Producto no encontrado", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }
+
     }
+
 
     //METODO POST
     @PostMapping

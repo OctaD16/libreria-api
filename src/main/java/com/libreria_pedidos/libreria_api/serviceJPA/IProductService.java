@@ -9,4 +9,5 @@ public interface IProductService {
     List<Product> buscarTodos();
     void eliminar(Long id);
     Product actualizar(Long id, Product product);
+    public boolean existe(Long id);
 }

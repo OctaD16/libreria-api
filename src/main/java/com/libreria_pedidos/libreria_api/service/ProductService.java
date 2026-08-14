@@ -36,4 +36,12 @@ public class ProductService implements IProductService {
     public Product actualizar(Long id, Product product) {
         return pRepo.save(product);
     }
+    @Override
+    public boolean existe(Long id) {
+        if (id == null) {
+            return false;
+        } else {
+            return pRepo.existsById(id);
+        }
+    }
 }
