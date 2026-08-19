@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -45,25 +44,54 @@ public class ProductController {
 
     //METODO POST
     @PostMapping
-    public Product guardar(@RequestBody Product product) {
-        return productService.guardar(product);
+    public ResponseEntity<DtoApiResponse<Product>> guardarProducto(@RequestBody Product product) {
+        if (productService.existe(product.getId())){
+            DtoApiResponse<Product> dto = new DtoApiResponse<>(404, "El producto que intenta guardar ya existe", null );
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+         }else{
+            DtoApiResponse<Product> dto = new DtoApiResponse<>(200, "Producto creado correctamente", productService.guardar(product));
+            return ResponseEntity.ok().body(dto);
+        }
     }
 
     //METODO PUT
-    @PutMapping("/{id}")
-    public Product actualizar(@PathVariable Long id, @RequestBody Product product) {
-        return productService.actualizar(id, product);
+    @PutMapping()
+    public ResponseEntity<DtoApiResponse<Product>> actualizarProducto(@RequestBody Product product) {
+        if (productService.existe(product.getId())){
+            DtoApiResponse<Product> dto = new DtoApiResponse<>(200, "Producto actualizado correctamente", productService.guardar(product));
+            return ResponseEntity.ok().body(dto);
+        }else{
+            DtoApiResponse<Product> dto = new DtoApiResponse<>(404, "El procucto que intenta actualizar no existe", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }
     }
 
     //METODO DELETE
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        productService.eliminar(id);
+    public ResponseEntity<DtoApiResponse<Product>> eliminarProducto(@PathVariable Long id) {
+        if (productService.existe(id)){
+            productService.eliminar(id);
+            DtoApiResponse<Product> dto = new DtoApiResponse<>(200, "Producto eliminado correctamente", null);
+            return ResponseEntity.ok().body(dto);
+        }else{
+            DtoApiResponse<Product> dto = new DtoApiResponse<>(404, "El producto que intenta eliminar no existe", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }
+
     }
 
-
-
-
+//controladore de excepciones
+/*
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<DtoApiResponse<?>> controladorDeExcepciones(ConstraintViolationException e) {
+        List<String> errors = new ArrayList<>();
+        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+            errors.add(violation.getMessage());
+        }
+        DtoApiResponse dto = new DtoApiResponse(400, errors, null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto);
+    }
+*/
 
 
 }
