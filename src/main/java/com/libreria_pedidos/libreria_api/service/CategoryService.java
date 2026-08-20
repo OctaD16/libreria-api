@@ -37,4 +37,9 @@ public class CategoryService implements ICategoryService {
     public Category actualizar(Long id, Category category) {
         return cRepo.save(category);
     }
+
+    @Override
+    public boolean existe(Long id) {
+        return cRepo.existsById(id);
+    }
 }

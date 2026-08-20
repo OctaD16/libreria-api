@@ -9,4 +9,5 @@ public interface ICategoryService {
     List<Category> buscarTodos();
     void eliminar(Long id);
     Category actualizar(Long id, Category category);
+    boolean existe(Long id);
 }
