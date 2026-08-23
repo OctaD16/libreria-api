@@ -9,4 +9,5 @@ public interface IStoreConfigService {
     List<StoreConfig> buscarTodos();
     void eliminar(Long id);
     StoreConfig actualizar(Long id, StoreConfig storeConfig);
+    Boolean existe(Long id);
 }

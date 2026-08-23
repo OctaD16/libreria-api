@@ -37,4 +37,9 @@ public class StoreConfigService implements IStoreConfigService {
     public StoreConfig actualizar(Long id, StoreConfig storeConfig) {
         return scRepo.save(storeConfig);
     }
+
+    @Override
+    public Boolean existe(Long id) {
+        return scRepo.existsById(id);
+    }
 }

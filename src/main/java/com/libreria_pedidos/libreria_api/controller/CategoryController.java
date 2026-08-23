@@ -4,11 +4,14 @@ import ch.qos.logback.core.joran.conditional.IfAction;
 import com.libreria_pedidos.libreria_api.model.Category;
 import com.libreria_pedidos.libreria_api.serviceJPA.ICategoryService;
 import com.libreria_pedidos.libreria_api.util.DtoApiResponse;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -80,18 +83,13 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
         }
     }
-
-    /*
-        // Controlador de excepciones
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<DTOApiResponse<List<String>>> exceptionController(ConstraintViolationException e) {
+    public ResponseEntity<DtoApiResponse<?>> controladorDeExcepciones(ConstraintViolationException e) {
         List<String> errors = new ArrayList<>();
         for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
             errors.add(violation.getMessage());
         }
-        DTOApiResponse<List<String>> response = new DTOApiResponse<>(400, errors, null);
-        return ResponseEntity.badRequest().body(response);
+        DtoApiResponse<?> response = new DtoApiResponse<>(400, errors, null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
-}
-     */
 }

@@ -2,11 +2,18 @@ package com.libreria_pedidos.libreria_api.controller;
 
 import com.libreria_pedidos.libreria_api.model.CustomerOrder;
 import com.libreria_pedidos.libreria_api.serviceJPA.ICustomerOrderService;
+import com.libreria_pedidos.libreria_api.util.DtoApiResponse;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+//Ordenes de clientes
 @RestController
 @RequestMapping("/api/ordenes")
 public class CustomerOrderController {
@@ -16,25 +23,74 @@ public class CustomerOrderController {
 
     //METODO GET
     @GetMapping
-    public List<CustomerOrder> buscarTodos() {
-        return customerOrderService.buscarTodos();
+    public ResponseEntity<DtoApiResponse<List<CustomerOrder>>> buscarTodos() {
+        List<CustomerOrder> listaDeOrdenes = customerOrderService.buscarTodos();
+        if (listaDeOrdenes == null || listaDeOrdenes.isEmpty()){
+            DtoApiResponse dto = new DtoApiResponse(404, "No hay ordenes", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }else {
+            DtoApiResponse dto = new DtoApiResponse<>(200, "", listaDeOrdenes);
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+        }
     }
 
     //METODO GET BY ID
     @GetMapping("/{id}")
-    public CustomerOrder buscarPorId(@PathVariable Long id) {
-        return customerOrderService.buscarPorId(id);
+    public ResponseEntity<DtoApiResponse<CustomerOrder>> buscarPorId(@PathVariable Long id) {
+        if (customerOrderService.existe(id)){
+            DtoApiResponse<CustomerOrder> dto = new DtoApiResponse(200, "", customerOrderService.buscarPorId(id));
+             return ResponseEntity.status(HttpStatus.OK).body(dto);
+        }else{
+            DtoApiResponse dto = new DtoApiResponse(404, "", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }
+
     }
 
     //METODO POST
     @PostMapping
-    public CustomerOrder guardar(@RequestBody CustomerOrder customerOrder) {
-        return customerOrderService.guardar(customerOrder);
+    public ResponseEntity<DtoApiResponse> guardar(@RequestBody CustomerOrder customerOrder) {
+        if (customerOrderService.existe(customerOrder.getId())){
+            DtoApiResponse<CustomerOrder> dto = new DtoApiResponse(404, "El producto que intenta guardar ya existe", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }else{
+            DtoApiResponse<CustomerOrder> dto = new DtoApiResponse(200, "", customerOrderService.guardar(customerOrder));
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+        }
     }
 
     //METODO PUT
-    @PutMapping("/{id}")
-    public CustomerOrder actualizar(@PathVariable Long id, @RequestBody CustomerOrder customerOrder) {
-        return customerOrderService.actualizar(id, customerOrder);
+    @PutMapping()
+    public ResponseEntity<DtoApiResponse<CustomerOrder>> actualizar(@RequestBody CustomerOrder customerOrder) {
+        if (customerOrderService.existe(customerOrder.getId())){
+            DtoApiResponse<CustomerOrder> dto = new DtoApiResponse<>(200, "", customerOrderService.guardar(customerOrder));
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+        }else{
+            DtoApiResponse dto = new DtoApiResponse(404, "", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }
+    }
+
+    //METODO DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DtoApiResponse<CustomerOrder>> eliminar(@PathVariable Long id) {
+        if (customerOrderService.existe(id)){
+            customerOrderService.eliminar(id);
+            DtoApiResponse<CustomerOrder> dto = new DtoApiResponse<>(200, "", null);
+            return ResponseEntity.ok().body(dto);
+        }else{
+            DtoApiResponse<CustomerOrder> dto = new DtoApiResponse<>(404, "", null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+        }
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<DtoApiResponse<?>> controladorDeExcepciones(ConstraintViolationException e) {
+        List<String> errors = new ArrayList<>();
+        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+            errors.add(violation.getMessage());
+        }
+        DtoApiResponse<?> response = new DtoApiResponse<>(400, errors, null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }

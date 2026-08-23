@@ -37,4 +37,9 @@ public class CustomerOrderService implements ICustomerOrderService {
     public CustomerOrder actualizar(Long id, CustomerOrder customerOrder) {
         return coRepo.save(customerOrder);
     }
+
+    @Override
+    public Boolean existe(Long id) {
+        return coRepo.existsById(id);
+    }
 }

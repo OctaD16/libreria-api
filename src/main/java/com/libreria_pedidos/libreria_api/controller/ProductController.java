@@ -3,10 +3,14 @@ package com.libreria_pedidos.libreria_api.controller;
 import com.libreria_pedidos.libreria_api.model.Product;
 import com.libreria_pedidos.libreria_api.serviceJPA.IProductService;
 import com.libreria_pedidos.libreria_api.util.DtoApiResponse;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -79,19 +83,13 @@ public class ProductController {
         }
 
     }
-
-//controladore de excepciones
-/*
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<DtoApiResponse<?>> controladorDeExcepciones(ConstraintViolationException e) {
         List<String> errors = new ArrayList<>();
         for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
             errors.add(violation.getMessage());
         }
-        DtoApiResponse dto = new DtoApiResponse(400, errors, null);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto);
+        DtoApiResponse<?> response = new DtoApiResponse<>(400, errors, null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
-*/
-
-
 }

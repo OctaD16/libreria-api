@@ -9,4 +9,5 @@ public interface ICustomerOrderService {
     List<CustomerOrder> buscarTodos();
     void eliminar(Long id);
     CustomerOrder actualizar(Long id, CustomerOrder customerOrder);
+    Boolean existe(Long id);
 }

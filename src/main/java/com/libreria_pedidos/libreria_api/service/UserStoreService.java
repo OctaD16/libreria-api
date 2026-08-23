@@ -37,4 +37,9 @@ public class UserStoreService implements IUserStoreService {
     public UserStore actualizar(Long id, UserStore userStore) {
         return usRepo.save(userStore);
     }
+
+    @Override
+    public Boolean existe(Long id) {
+        return usRepo.existsById(id);
+    }
 }
