@@ -79,14 +79,4 @@ public class StoreConfigController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
         }
     }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<DtoApiResponse<?>> controladorDeExcepciones(ConstraintViolationException e) {
-        List<String> errors = new ArrayList<>();
-        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
-            errors.add(violation.getMessage());
-        }
-        DtoApiResponse<?> response = new DtoApiResponse<>(400, errors, null);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
 }

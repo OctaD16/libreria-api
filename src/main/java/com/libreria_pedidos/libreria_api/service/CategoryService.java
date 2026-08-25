@@ -1,5 +1,6 @@
 package com.libreria_pedidos.libreria_api.service;
 
+import com.libreria_pedidos.libreria_api.exception.ResourceNotFoundException;
 import com.libreria_pedidos.libreria_api.model.Category;
 import com.libreria_pedidos.libreria_api.repository.ICategoryRepository;
 import com.libreria_pedidos.libreria_api.serviceJPA.ICategoryService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -20,7 +22,12 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category buscarPorId(Long id) {
-        return cRepo.findById(id).orElse(null);
+        Optional<Category> cate = cRepo.findById(id);
+        if (cate.isPresent()){
+            return cate.get();
+        }else{
+            throw new ResourceNotFoundException("La categoria no existe");
+        }
     }
 
     @Override
@@ -30,11 +37,16 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public void eliminar(Long id) {
-        cRepo.deleteById(id);
+        Category cate = this.buscarPorId(id);
+        cRepo.delete(cate);
     }
 
     @Override
     public Category actualizar(Long id, Category category) {
+        Category cate = this.buscarPorId(id);
+        cate.setName(category.getName());
+        cate.setDescription(category.getDescription());
+        cate.setStatus(category.getStatus());
         return cRepo.save(category);
     }
 
