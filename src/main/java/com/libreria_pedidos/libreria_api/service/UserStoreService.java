@@ -53,7 +53,7 @@ public class UserStoreService implements IUserStoreService {
     }
 
     @Override
-    public Boolean existe(Long id) {
+    public boolean existe(Long id) {
         return usRepo.existsById(id);
     }
 }

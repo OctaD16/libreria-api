@@ -23,48 +23,31 @@ public class StoreConfigController {
     @GetMapping
     public ResponseEntity<DtoApiResponse<List<StoreConfig>>> buscarTodos() {
         List<StoreConfig> listaDeStoreConfig = storeConfigService.buscarTodos();
-        if (listaDeStoreConfig == null || listaDeStoreConfig.isEmpty()){
-            DtoApiResponse dto = new DtoApiResponse(404, "No hay configuraciones de tienda", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-        }else {
-            DtoApiResponse dto = new DtoApiResponse(200, "Configuraciones encontradas", listaDeStoreConfig);
-            return ResponseEntity.status(HttpStatus.OK).body(dto);
-        }
+        DtoApiResponse<List<StoreConfig>> response = new DtoApiResponse<>(200, "Configuraciones encontradas", listaDeStoreConfig);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DtoApiResponse<StoreConfig>> buscarPorId(@PathVariable Long id) {
-        if(storeConfigService.existe(id)){
-            DtoApiResponse<StoreConfig> dto = new DtoApiResponse<>(200, "Configuracion encontrada", storeConfigService.buscarPorId(id));
-            return ResponseEntity.ok().body(dto);
-        }else{
-            DtoApiResponse dto = new DtoApiResponse(404, "Configuracion no encontrada", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-        }
+        StoreConfig storeConfig = storeConfigService.buscarPorId(id);
+        DtoApiResponse<StoreConfig> response = new DtoApiResponse<>(200, "Configuracion encontrada", storeConfig);
+        return ResponseEntity.ok(response);
     }
 
     //METODO POST
     @PostMapping
     public ResponseEntity<DtoApiResponse<StoreConfig>> guardar(@RequestBody StoreConfig storeConfig) {
-        if (storeConfigService.existe(storeConfig.getId())){
-            DtoApiResponse<StoreConfig> dto = new DtoApiResponse<>(404, "La configuracion que intenta guardar ya existe", null );
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-        }else{
-            DtoApiResponse<StoreConfig> dto = new DtoApiResponse<>(200, "Configuracion creada correctamente", storeConfigService.guardar(storeConfig));
-            return ResponseEntity.ok().body(dto);
-        }
+        StoreConfig configuracionGuardada = storeConfigService.guardar(storeConfig);
+        DtoApiResponse<StoreConfig> response = new DtoApiResponse<>(201, "Configuracion guardada", configuracionGuardada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     //METODO PUT
-    @PutMapping()
-    public ResponseEntity<DtoApiResponse<StoreConfig>> actualizar(@RequestBody StoreConfig storeConfig) {
-        if (storeConfigService.existe(storeConfig.getId())){
-            DtoApiResponse<StoreConfig> dto = new DtoApiResponse<>(200, "Configuracion actualizada correctamente", storeConfigService.guardar(storeConfig));
-            return ResponseEntity.ok().body(dto);
-        }else{
-            DtoApiResponse<StoreConfig> dto = new DtoApiResponse<>(404, "La configuracion que intenta actualizar no existe", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity<DtoApiResponse<StoreConfig>> actualizar(@RequestBody StoreConfig storeConfig, @PathVariable Long id) {
+        StoreConfig configuracionActualizada = storeConfigService.actualizar(id, storeConfig);
+        DtoApiResponse<StoreConfig> response = new DtoApiResponse<>(200, "Configuracion actualizada", configuracionActualizada);
+        return ResponseEntity.ok(response);
     }
 
     //METODO DELETE

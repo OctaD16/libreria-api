@@ -9,5 +9,5 @@ public interface IUserStoreService {
     List<UserStore> buscarTodos();
     void eliminar(Long id);
     UserStore actualizar(Long id, UserStore userStore);
-    Boolean existe(Long id);
+    boolean existe(Long id);
 }

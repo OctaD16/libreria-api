@@ -1,11 +1,8 @@
 package com.libreria_pedidos.libreria_api.controller;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 import com.libreria_pedidos.libreria_api.model.Category;
 import com.libreria_pedidos.libreria_api.serviceJPA.ICategoryService;
 import com.libreria_pedidos.libreria_api.util.DtoApiResponse;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,65 +19,42 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     //METODO GET
+    //All
     @GetMapping
     public ResponseEntity<DtoApiResponse<List<Category>>> buscarCategorias() {
         List<Category> listaDeCategorias = categoryService.buscarTodos();
-        if (listaDeCategorias.isEmpty()){
-            DtoApiResponse<List<Category>> dto = new DtoApiResponse<>(404, "no hay categorias que mostrar", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-        }else {
-           DtoApiResponse<List<Category>> dto = new DtoApiResponse<>(200, "", listaDeCategorias);
-           return ResponseEntity.status(HttpStatus.OK).body(dto);
+        DtoApiResponse<List<Category>> response = new DtoApiResponse<>(200, "Categorias encontradas", listaDeCategorias);
+        return ResponseEntity.ok(response);
         }
-    }
-
+    //By id
     @GetMapping("/{id}")
     public ResponseEntity<DtoApiResponse<Category>> buscarPorId(@PathVariable Long id) {
         Category category = categoryService.buscarPorId(id);
-        if(category != null){
-            DtoApiResponse<Category> dto = new DtoApiResponse<>(200, "", category);
-            return ResponseEntity.ok().body(dto);
-        }else{
-            DtoApiResponse<Category> dto = new DtoApiResponse<>(404, "La categoria no existe", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-        }
+        DtoApiResponse<Category> response = new DtoApiResponse<>(200, "Categoria encontrada", category);
+        return ResponseEntity.ok(response);
     }
 
     //METODO POST
     @PostMapping
     public ResponseEntity<DtoApiResponse<Category>> guardarCategoria(@RequestBody Category category) {
-        if(categoryService.existe(category.getId())){
-            DtoApiResponse<Category> dto = new DtoApiResponse<>(404, "Ya existe la categoria", null);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(dto);
-        }else {
-            Category categoriaGuardada = categoryService.guardar(category);
-            DtoApiResponse<Category> dto = new DtoApiResponse<>(200, "", categoriaGuardada);
-            return ResponseEntity.ok().body(dto);
-        }
+        Category categoriaGuardada = categoryService.guardar(category);
+        DtoApiResponse<Category> response = new DtoApiResponse<>(201, "Categoria guardada", categoriaGuardada);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     //METODO PUT
     @PutMapping("/{id}")
-    public ResponseEntity<DtoApiResponse<Category>> actualizarCategoria(@RequestBody Category category) {
-        if (categoryService.existe(category.getId())){
-          DtoApiResponse<Category> dto = new DtoApiResponse<>(200, "", category);
-          return ResponseEntity.ok().body(dto);
-        }else{
-            DtoApiResponse<Category> dto = new DtoApiResponse<>(404, "La categoria no existe", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-        }
+    public ResponseEntity<DtoApiResponse<Category>> actualizarCategoria(@RequestBody Category category, @PathVariable Long id) {
+    Category categoriaActualizada = categoryService.actualizar(id, category);
+    DtoApiResponse<Category> response = new DtoApiResponse<>(200, "Categoria actualizada", categoriaActualizada);
+    return ResponseEntity.ok(response);
     }
 
     //METODO DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<DtoApiResponse<String>> eliminarCategoria(@PathVariable Long id) {
-        if (categoryService.existe(id)){
-            categoryService.eliminar(id);
-            DtoApiResponse<String> dto = new DtoApiResponse<>(200, "Eliminada correctamente", null);
-            return ResponseEntity.ok().body(dto);
-        }else{
-            DtoApiResponse<String> dto = new DtoApiResponse<>(404, "La categoria no existe", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
-        }
+    categoryService.eliminar(id);
+    DtoApiResponse<String> response = new DtoApiResponse<>(200, "Categoria eliminada", null);
+    return ResponseEntity.ok(response);
     }
 }

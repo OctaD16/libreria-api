@@ -60,7 +60,7 @@ public class StoreConfigService implements IStoreConfigService {
 }
 
     @Override
-    public Boolean existe(Long id) {
+    public boolean existe(Long id) {
         return scRepo.existsById(id);
     }
 }

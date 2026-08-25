@@ -49,7 +49,7 @@ public class ProductService implements IProductService {
         prod.setPrice(product.getPrice());
         prod.setStock(product.getStock());
         prod.setImage(product.getImage());
-        return pRepo.save(product);
+        return pRepo.save(prod);
     }
 
     @Override
