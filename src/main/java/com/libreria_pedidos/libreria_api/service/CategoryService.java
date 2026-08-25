@@ -14,7 +14,7 @@ import java.util.Optional;
 public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository cRepo;
-    //vamos a hacer lo mismo para las demas clases service, respetando el patron de diseño
+
     @Override
     public Category guardar(Category category) {
         return cRepo.save(category);

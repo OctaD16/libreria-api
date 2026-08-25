@@ -1,12 +1,15 @@
 package com.libreria_pedidos.libreria_api.service;
 
+import com.libreria_pedidos.libreria_api.exception.ResourceNotFoundException;
 import com.libreria_pedidos.libreria_api.model.CustomerOrder;
 import com.libreria_pedidos.libreria_api.repository.ICustomerOrderRepository;
 import com.libreria_pedidos.libreria_api.serviceJPA.ICustomerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerOrderService implements ICustomerOrderService {
@@ -20,7 +23,12 @@ public class CustomerOrderService implements ICustomerOrderService {
 
     @Override
     public CustomerOrder buscarPorId(Long id) {
-        return coRepo.findById(id).orElse(null);
+        Optional<CustomerOrder> cuOrder = coRepo.findById(id);
+        if (cuOrder.isPresent()){
+            return cuOrder.get();
+        }else {
+            throw new ResourceNotFoundException("La orden no existe");
+        }
     }
 
     @Override
@@ -30,12 +38,27 @@ public class CustomerOrderService implements ICustomerOrderService {
 
     @Override
     public void eliminar(Long id) {
-        coRepo.deleteById(id);
+        CustomerOrder cuOrder = this.buscarPorId(id);
+        coRepo.delete(cuOrder);
     }
 
     @Override
-    public CustomerOrder actualizar(Long id, CustomerOrder customerOrder) {
-        return coRepo.save(customerOrder);
+    public CustomerOrder actualizar(Long id, CustomerOrder customerOrder){
+        CustomerOrder cuOrder = this.buscarPorId(id);
+
+        cuOrder.setDate(customerOrder.getDate());
+        cuOrder.setCustomerName(customerOrder.getCustomerName());
+        cuOrder.setAddress(customerOrder.getAddress());
+        cuOrder.setPhone(customerOrder.getPhone());
+
+        cuOrder.setEmail(customerOrder.getEmail());
+        cuOrder.setTotal(customerOrder.getTotal());
+        cuOrder.setPaymentMethod(customerOrder.getPaymentMethod());
+        cuOrder.setStatus(customerOrder.getStatus());
+        cuOrder.setObservations(customerOrder.getObservations());
+        cuOrder.setDeliveryType(customerOrder.getDeliveryType());
+        cuOrder.setDeliveryDate(customerOrder.getDeliveryDate());
+    return coRepo.save(cuOrder);
     }
 
     @Override
