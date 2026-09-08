@@ -35,6 +35,6 @@ public class Product {
     @JoinColumn(name = "store_config_id")
     private StoreConfig storeConfig;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrdersDetail> ordersDetails;
 }
