@@ -55,14 +55,12 @@ public class CustomerOrderController {
 
     //METODO DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<DtoApiResponse<CustomerOrder>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         if (customerOrderService.existe(id)){
             customerOrderService.eliminar(id);
-            DtoApiResponse<CustomerOrder> dto = new DtoApiResponse<>(200, "", null);
-            return ResponseEntity.ok().body(dto);
+            return ResponseEntity.noContent().build();
         }else{
-            DtoApiResponse<CustomerOrder> dto = new DtoApiResponse<>(404, "", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+            return ResponseEntity.notFound().build();
         }
     }
 }

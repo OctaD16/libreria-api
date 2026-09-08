@@ -47,7 +47,7 @@ public class CategoryService implements ICategoryService {
         cate.setName(category.getName());
         cate.setDescription(category.getDescription());
         cate.setStatus(category.getStatus());
-        return cRepo.save(category);
+        return cRepo.save(cate);
     }
 
     @Override

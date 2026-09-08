@@ -53,15 +53,12 @@ public class ProductController {
 
     //METODO DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<DtoApiResponse<Product>> eliminarProducto(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
         if (productService.existe(id)){
             productService.eliminar(id);
-            DtoApiResponse<Product> dto = new DtoApiResponse<>(200, "Producto eliminado correctamente", null);
-            return ResponseEntity.ok().body(dto);
+            return ResponseEntity.noContent().build();
         }else{
-            DtoApiResponse<Product> dto = new DtoApiResponse<>(404, "El producto que intenta eliminar no existe", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+            return ResponseEntity.notFound().build();
         }
-
     }
 }
