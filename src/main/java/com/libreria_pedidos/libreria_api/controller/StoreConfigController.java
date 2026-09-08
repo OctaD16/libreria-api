@@ -52,14 +52,12 @@ public class StoreConfigController {
 
     //METODO DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<DtoApiResponse<StoreConfig>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         if (storeConfigService.existe(id)){
             storeConfigService.eliminar(id);
-            DtoApiResponse<StoreConfig> dto = new DtoApiResponse<>(200, "Configuracion eliminada correctamente", null);
-            return ResponseEntity.ok().body(dto);
+            return ResponseEntity.noContent().build();
         }else{
-            DtoApiResponse<StoreConfig> dto = new DtoApiResponse<>(404, "La configuracion que intenta eliminar no existe", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+            return ResponseEntity.notFound().build();
         }
     }
 }

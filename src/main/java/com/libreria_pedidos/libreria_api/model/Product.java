@@ -3,6 +3,7 @@ package com.libreria_pedidos.libreria_api.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class Product {
 
     private String description;
 
-    private double price;
+    private BigDecimal price;
 
     private Integer stock;
 

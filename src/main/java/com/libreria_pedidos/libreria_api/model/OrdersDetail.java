@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -16,9 +17,9 @@ public class OrdersDetail {
 
     private Integer quantity;
 
-    private double price;
+    private BigDecimal price;
 
-    private double subtotal;
+    private BigDecimal subtotal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

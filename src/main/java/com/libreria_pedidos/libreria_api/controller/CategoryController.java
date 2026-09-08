@@ -52,9 +52,8 @@ public class CategoryController {
 
     //METODO DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<DtoApiResponse<String>> eliminarCategoria(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {
     categoryService.eliminar(id);
-    DtoApiResponse<String> response = new DtoApiResponse<>(200, "Categoria eliminada", null);
-    return ResponseEntity.ok(response);
+    return ResponseEntity.noContent().build();
     }
 }

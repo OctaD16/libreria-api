@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class CustomerOrder {
 
     private String email;
 
-    private double total;
+    private BigDecimal total;
 
     private Integer paymentMethod;
 

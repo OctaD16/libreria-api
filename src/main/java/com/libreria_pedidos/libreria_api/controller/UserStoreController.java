@@ -53,14 +53,12 @@ public class UserStoreController {
 
     //METODO DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<DtoApiResponse<UserStore>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         if (userStoreService.existe(id)){
             userStoreService.eliminar(id);
-            DtoApiResponse<UserStore> dto = new DtoApiResponse<>(200, "Usuario eliminado correctamente", null);
-            return ResponseEntity.ok().body(dto);
+            return ResponseEntity.noContent().build();
         }else{
-            DtoApiResponse<UserStore> dto = new DtoApiResponse<>(404, "El usuario que intenta eliminar no existe", null);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+            return ResponseEntity.notFound().build();
         }
     }
 }
