@@ -1,5 +1,6 @@
 package com.libreria_pedidos.libreria_api.controller;
 
+import com.libreria_pedidos.libreria_api.dto.CategoryResponseDto;
 import com.libreria_pedidos.libreria_api.model.Category;
 import com.libreria_pedidos.libreria_api.serviceJPA.ICategoryService;
 import com.libreria_pedidos.libreria_api.util.DtoApiResponse;
@@ -21,16 +22,33 @@ public class CategoryController {
     //METODO GET
     //All
     @GetMapping
-    public ResponseEntity<DtoApiResponse<List<Category>>> buscarCategorias() {
+    public ResponseEntity<DtoApiResponse<List<CategoryResponseDto>>> buscarCategorias() {
         List<Category> listaDeCategorias = categoryService.buscarTodos();
-        DtoApiResponse<List<Category>> response = new DtoApiResponse<>(200, "Categorias encontradas", listaDeCategorias);
+
+        List<CategoryResponseDto> listDto = new ArrayList<>();
+
+        for (Category categoria : listaDeCategorias){
+            CategoryResponseDto dto = new CategoryResponseDto();
+            dto.setId(categoria.getId());
+            dto.setName(categoria.getName());
+            dto.setDescription(categoria.getDescription());
+
+            listDto.add(dto);
+        }
+        DtoApiResponse<List<CategoryResponseDto>> response = new DtoApiResponse<>(200, "Categorias encontradas", listDto);
         return ResponseEntity.ok(response);
         }
     //By id
     @GetMapping("/{id}")
-    public ResponseEntity<DtoApiResponse<Category>> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<DtoApiResponse<CategoryResponseDto>> buscarPorId(@PathVariable Long id) {
         Category category = categoryService.buscarPorId(id);
-        DtoApiResponse<Category> response = new DtoApiResponse<>(200, "Categoria encontrada", category);
+
+        CategoryResponseDto dto = new CategoryResponseDto();
+        dto.setId(category.getId());
+        dto.setName(category.getName());
+        dto.setDescription(category.getDescription());
+
+        DtoApiResponse<CategoryResponseDto> response = new DtoApiResponse<>(200, "Categoria encontrada", dto);
         return ResponseEntity.ok(response);
     }
 
