@@ -1,5 +1,6 @@
 package com.libreria_pedidos.libreria_api.controller;
 
+import com.libreria_pedidos.libreria_api.dto.ProductResponseDto;
 import com.libreria_pedidos.libreria_api.model.Product;
 import com.libreria_pedidos.libreria_api.serviceJPA.IProductService;
 import com.libreria_pedidos.libreria_api.util.DtoApiResponse;
@@ -21,16 +22,32 @@ public class ProductController {
 
     //METODO GET
     @GetMapping
-    public ResponseEntity<DtoApiResponse <List<Product>>>  buscarTodosLosProductos() {
+    public ResponseEntity<DtoApiResponse <List<ProductResponseDto|>>>  buscarTodosLosProductos() {
         List<Product> listaDeProductos = productService.buscarTodos();
+
+
+        for(){
+
+        }
+
         DtoApiResponse<List<Product>> response = new DtoApiResponse<>(200, "Productos encontrados", listaDeProductos);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DtoApiResponse<Product>> buscarProductosPorId(@PathVariable Long id) {
+    public ResponseEntity<DtoApiResponse<ProductResponseDto>> buscarProductosPorId(@PathVariable Long id) {
         Product product = productService.buscarPorId(id);
-        DtoApiResponse<Product> response = new DtoApiResponse<>(200, "Producto encontrado", product);
+
+        ProductResponseDto dto = new ProductResponseDto();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setPrice(product.getPrice());
+        dto.setStock(product.getStock());
+        dto.setImage(product.getImage());
+        dto.setStatus(product.getStatus());
+
+
+        DtoApiResponse<ProductResponseDto  > response = new DtoApiResponse<>(200, "Producto encontrado", dto);
         return ResponseEntity.ok(response);
     }
 
